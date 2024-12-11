@@ -1,2 +1,4 @@
-# web-security-attacks-practice
-XSS나 CSRF와 같은 공격을 직접 실습해보고, 대처 방안도 구현하는 레포
+# 실습 목록
+- XSS 실습
+  - reflected XSS 공격으로 alert 실행
+  - 로그인한 사용자의 액세스 토큰 탈취 (할 예정)
