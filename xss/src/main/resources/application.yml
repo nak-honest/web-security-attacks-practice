@@ -1,0 +1,18 @@
+security:
+  jwt:
+    token:
+      secret-key: TESTKEYTESTKEYTESTKEYTESTKEYTESTKEYTESTKEYTESTKEY
+      expire-length: 1800000 # 30 min
+
+# 액세스 토큰 탈취 코드를 삽입하기 위해 URL에서 다음 특수문자들 허용
+server:
+  tomcat:
+    relaxed-query-chars:
+      - "["
+      - "]"
+      - "{"
+      - "}"
+      - "|"
+      - "^"
+      - "`"
+    allow-encoded-slashes: true
