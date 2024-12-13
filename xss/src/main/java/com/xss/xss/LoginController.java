@@ -18,9 +18,21 @@ public class LoginController {
         this.loginService = loginService;
     }
 
-    @GetMapping("/login")
-    public ResponseEntity<Void> login(@RequestParam("name") String name) {
-        ResponseCookie cookie = TokenCookieProvider.createCookie(loginService.login(name));
+    @GetMapping("/login-for-attack")
+    public ResponseEntity<Void> loginForAttack(@RequestParam("name") String name) {
+        // XSS 공격이 가능하도록 httpOnly를 false로 설정한다.
+        ResponseCookie cookie = TokenCookieProvider.createCookie(loginService.login(name), false);
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.SET_COOKIE, cookie.toString())
+                .contentType(MediaType.APPLICATION_JSON)
+                .build();
+    }
+
+    @GetMapping("/login-for-defend")
+    public ResponseEntity<Void> loginForDefend(@RequestParam("name") String name) {
+        // httpOnly를 true로 설정하면 JS 로 액세스 토큰을 꺼내는 것이 불가능하다.
+        ResponseCookie cookie = TokenCookieProvider.createCookie(loginService.login(name), true);
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, cookie.toString())

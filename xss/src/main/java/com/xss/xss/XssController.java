@@ -17,7 +17,7 @@ public class XssController {
     http://localhost:8080/xss-reflected?keyword=<script>alert(decodeURIComponent(document.cookie.split('; ').find(row => row.startsWith('token='))?.split('=')[1]));</script>
      */
     @GetMapping(path = "/xss-reflected")
-    public String index(Model model, @RequestParam(name = "keyword", required = false) String keyword) {
+    public String attackXssReflected(Model model, @RequestParam(name = "keyword", required = false) String keyword) {
 
         model.addAttribute("keyword", keyword);
         return "xss-reflected";

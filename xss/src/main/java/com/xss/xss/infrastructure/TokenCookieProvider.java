@@ -9,14 +9,10 @@ public class TokenCookieProvider {
     private TokenCookieProvider() {
     }
 
-    public static ResponseCookie createCookie(String token) {
+    public static ResponseCookie createCookie(String token, boolean httpOnly) {
         return ResponseCookie.from(COOKIE_NAME, token)
-                .httpOnly(false)  // XSS 공격이 가능하도록
+                .httpOnly(httpOnly)
                 .path("/")
                 .build();
-    }
-
-    public static String getCookieName() {
-        return COOKIE_NAME;
     }
 }
