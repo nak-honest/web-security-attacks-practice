@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Reflected XSS 공격</title>
+</head>
+
+<body>
+<h1>Reflected XSS 공격</h1>
+
+<div class="form">
+    <form th:action="@{/xss-reflected-for-defend}" method="get">
+        <div class="input">
+            <div>
+                <span>검색어</span>
+                <input type="text" name="keyword"/>
+            </div>
+        </div>
+        <input class="button" type="submit" value="검색"/>
+    </form>
+</div>
+
+<div class="container">
+    <div class="header">입력한 검색어: <span th:text="${keyword}"></span></div>
+</div>
+
+</body>
+</html>
