@@ -1,12 +1,17 @@
 package com.xss.xss;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class XssController {
+    // </script><script>alert("당신의 컴퓨터는 해킹당했습니다!")</script><script>
 
     /*
     사용자로 부터 받은 키워드를 그대로 HTML 에 삽입한다.
@@ -17,18 +22,34 @@ public class XssController {
     http://localhost:8080/xss-reflected-for-attack?keyword=<script>alert(decodeURIComponent(document.cookie.split('; ').find(row => row.startsWith('token='))?.split('=')[1]));</script>
      */
     @GetMapping(path = "/xss-reflected-for-attack")
-    public String attackXssReflectedForAttack(Model model,
-                                              @RequestParam(name = "keyword", required = false) String keyword) {
+    public String attackXssReflected(Model model,
+                                     @RequestParam(name = "keyword", required = false) String keyword) {
 
         model.addAttribute("keyword", keyword);
         return "xss-reflected-for-attack";
     }
 
     @GetMapping(path = "/xss-reflected-for-defend")
-    public String attackXssReflectedForDefend(Model model,
-                                              @RequestParam(name = "keyword", required = false) String keyword) {
+    public String defendXssReflected(Model model,
+                                     @RequestParam(name = "keyword", required = false) String keyword) {
 
         model.addAttribute("keyword", keyword);
         return "xss-reflected-for-defend";
+    }
+
+    /*
+    아래 url로 접속해서 다음을 입력하면 공격에 성공한다.
+    <script>alert(decodeURIComponent(document.cookie.split('; ').find(row => row.startsWith('token='))?.split('=')[1]));</script>
+     */
+    @GetMapping(path = "/xss-reflected-by-json")
+    public String xssReflectedByJson() {
+        return "xss-reflected-by-json";
+    }
+
+    @PostMapping(path = "/xss-attack")
+    @ResponseBody
+    public ResponseEntity<XssResponse> attackXssReflectedByJson(@RequestBody XssRequest request) {
+        System.out.println(request.message());
+        return ResponseEntity.ok(new XssResponse(request.message()));
     }
 }

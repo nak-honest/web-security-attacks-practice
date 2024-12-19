@@ -7,5 +7,8 @@
 
 ## XSS 실습
 
-- reflected XSS 공격으로 alert 실행
-- reflected XSS 공격으로 로그인한 사용자의 액세스 토큰 탈취
+### reflected XSS 공격
+
+- 단순 alert 실행
+- 로그인한 사용자의 액세스 토큰 탈취
+- json 을 이용한 공격

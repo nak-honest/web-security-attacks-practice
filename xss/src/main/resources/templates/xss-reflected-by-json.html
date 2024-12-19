@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Data Display</title>
+</head>
+<body>
+<h1>JSON Data Viewer</h1>
+<form id="input-form">
+    <label for="user-input">Enter your message:</label>
+    <input type="text" id="user-input" name="message" required>
+    <button type="submit">Send</button>
+</form>
+<div id="json-container">
+    <!-- JSON data will be displayed here -->
+</div>
+
+<script>
+    // URL to fetch JSON data from
+    const apiUrl = 'http://localhost:8080/xss-attack'; // Example API
+
+    // Handle form submission
+    document.getElementById('input-form').addEventListener('submit', function (event) {
+        event.preventDefault(); // Prevent form from refreshing the page
+
+        // Get user input
+        const userInput = document.getElementById('user-input').value;
+
+        // Create JSON payload
+        const requestData = {
+            message: userInput
+        };
+
+        // Fetch and display JSON data
+        fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestData)
+        })
+            .then(response => response.json())
+            .then(data => {
+                // Use document.write to directly insert the script
+                document.write(data.message);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('json-container').innerHTML = '<p style="color: red;">An error occurred while fetching the data.</p>';
+            });
+    });
+</script>
+</body>
+</html>
