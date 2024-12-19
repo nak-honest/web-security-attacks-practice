@@ -14,7 +14,7 @@ public class XssDefendRequestWrapper extends HttpServletRequestWrapper {
     @Override
     public String getParameter(String name) {
         String value = super.getParameter(name);
-        return escape(value);
+        return XssEscape.escape(value);
     }
 
     @Override
@@ -24,7 +24,7 @@ public class XssDefendRequestWrapper extends HttpServletRequestWrapper {
             return null;
         }
         for (int i = 0; i < values.length; i++) {
-            values[i] = escape(values[i]);
+            values[i] = XssEscape.escape(values[i]);
         }
         return values;
     }
@@ -36,7 +36,7 @@ public class XssDefendRequestWrapper extends HttpServletRequestWrapper {
         for (Map.Entry<String, String[]> entry : parameterMap.entrySet()) {
             String[] escapedValues = new String[entry.getValue().length];
             for (int i = 0; i < escapedValues.length; i++) {
-                escapedValues[i] = escape(entry.getValue()[i]);
+                escapedValues[i] = XssEscape.escape(entry.getValue()[i]);
             }
             escapedMap.put(entry.getKey(), escapedValues);
         }
@@ -47,19 +47,6 @@ public class XssDefendRequestWrapper extends HttpServletRequestWrapper {
     @Override
     public String getHeader(String name) {
         String value = super.getHeader(name);
-        return escape(value);
-    }
-
-    private String escape(String value) {
-        if (value == null) {
-            return null;
-        }
-
-        return value
-                .replace("<", "&lt;")
-                .replace(">", "&gt;")
-                .replace("\"", "&quot;")
-                .replace("'", "&#x27;")
-                .replace("&", "&amp;");
+        return XssEscape.escape(value);
     }
 }
