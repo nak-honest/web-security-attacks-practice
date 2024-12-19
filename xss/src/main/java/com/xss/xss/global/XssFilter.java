@@ -1,4 +1,4 @@
-package com.xss.xss;
+package com.xss.xss.global;
 
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;

@@ -1,5 +1,7 @@
 package com.xss.xss;
 
+import com.xss.xss.dto.XssRequest;
+import com.xss.xss.dto.XssResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
